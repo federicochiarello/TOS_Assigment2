@@ -14,12 +14,14 @@ public class BillCalculator implements TakeAwayBill {
 
     private double total;
     private double cheaperIceCreamPrice;
+    private double totalDrinksPrice;
     private int numberOfIceCream;
     
     public double getOrderPrice(List<MenuItem> itemsOrdered, User user, LocalTime time) throws TakeAwayBillException {
 
         total = 0.0;
         cheaperIceCreamPrice = 0.0;
+        totalDrinksPrice = 0.0;
         numberOfIceCream = 0;
 
         if (itemsOrdered == null) {
@@ -39,10 +41,18 @@ public class BillCalculator implements TakeAwayBill {
                      cheaperIceCreamPrice = i.getPrice();
                 }
             }
+        
+            if (i.getItemType() == MenuItem.ItemType.Bevanda) {
+                totalDrinksPrice += i.getPrice();
+            }
         }
         
         if (numberOfIceCream > 5) {
             total -= cheaperIceCreamPrice * 0.5;
+        }
+        
+        if (total - totalDrinksPrice > 50) {
+            total *= 0.9;
         }
         
         return total;

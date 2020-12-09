@@ -83,4 +83,23 @@ public class BillCalculatorTest {
         total = calculator.getOrderPrice(list,user,time);
         assertEquals(10.5,total,0.0);
     }
+    
+    @Test 
+    public void getOrderPrice_50EuroInIceCreamsAndBudini_CalculatedWithoutDiscount() throws TakeAwayBillException {
+        list.add(new MenuItem(MenuItem.ItemType.Budino,"Pinguino",25.0));
+        list.add(new MenuItem(MenuItem.ItemType.Gelato,"Coppa Nafta",25.0));
+        list.add(new MenuItem(MenuItem.ItemType.Bevanda,"Mirto",1.0));
+        total = calculator.getOrderPrice(list,user,time);
+        assertEquals(51.0,total,0.0);
+    } 
+
+    @Test 
+    public void getOrderPrice_MoreThan50EuroInIceCreamsAndBudini_CalculatedWithDiscount() throws TakeAwayBillException {
+        list.add(new MenuItem(MenuItem.ItemType.Budino,"Pinguino",29.0));
+        list.add(new MenuItem(MenuItem.ItemType.Gelato,"Coppa Nafta",30.0));
+        list.add(new MenuItem(MenuItem.ItemType.Bevanda,"Mirto",1.0));
+        total = calculator.getOrderPrice(list,user,time);
+        assertEquals(54.0,total,0.0);
+    }
+    
 }
