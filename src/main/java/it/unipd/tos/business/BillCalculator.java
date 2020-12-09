@@ -32,6 +32,10 @@ public class BillCalculator implements TakeAwayBill {
             throw new TakeAwayBillException("La lista contiene un elemento vuoto");
         }
         
+        if (itemsOrdered.size() > 30) {
+            throw new TakeAwayBillException("La lista ha più di 30 elementi");
+        }
+        
         for (MenuItem i: itemsOrdered) {
             total += i.getPrice();
             

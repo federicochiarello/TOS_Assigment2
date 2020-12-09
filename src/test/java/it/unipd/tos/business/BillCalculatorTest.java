@@ -51,6 +51,35 @@ public class BillCalculatorTest {
         list.add(new MenuItem(MenuItem.ItemType.Budino,"Pinguino",9.0));
         total = calculator.getOrderPrice(list,user,time);
     }
+    
+    @Test(expected = TakeAwayBillException.class) 
+    public void getOrderPrice_MoreThen30Items_ExceptionThrown() throws TakeAwayBillException {
+        for(int i=0; i<31; i++) {
+            list.add(new MenuItem(MenuItem.ItemType.Gelato,"Cioccolato",1.0));
+	    }
+        total = calculator.getOrderPrice(list,user,time);
+    } 
+    
+    @Test
+    public void getOrderPrice_MoreThen30Items_ControlOfErrorMessage() throws TakeAwayBillException {
+        for(int i=0; i<31; i++) {
+            list.add(new MenuItem(MenuItem.ItemType.Gelato,"Cioccolato",1.0));
+	    }
+	    try {
+            total = calculator.getOrderPrice(list,user,time);
+        } catch (TakeAwayBillException exc) {
+            assertEquals("TakeAwayBillException: La lista ha più di 30 elementi", exc.toString());
+        }
+    }   
+    
+    @Test
+    public void getOrderPrice_30ItemsList_CalculatedTotalPrice() throws TakeAwayBillException {
+        for(int i=0; i<30; i++) {
+            list.add(new MenuItem(MenuItem.ItemType.Budino,"Cioccolato",1.0));
+	}
+        total = calculator.getOrderPrice(list,user,time);
+        assertEquals(30.0,total,0.0);
+    } 
 
     @Test
     public void getOrderPrice_3DifferentItems_CalculatedTotalPriceWithoutSalesOrCommissions() throws TakeAwayBillException {
@@ -59,7 +88,7 @@ public class BillCalculatorTest {
         list.add(new MenuItem(MenuItem.ItemType.Bevanda, "Grappino", 2.5));
         total = calculator.getOrderPrice(list,user,time);
         assertEquals(11.0,total,0.0);
-    }
+    }  
 
     @Test
     public void getOrderPrice_5IceCream_CalculatedWithoutDiscount() throws TakeAwayBillException {
@@ -101,5 +130,5 @@ public class BillCalculatorTest {
         total = calculator.getOrderPrice(list,user,time);
         assertEquals(54.0,total,0.0);
     }
-    
+
 }
