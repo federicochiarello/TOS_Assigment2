@@ -138,4 +138,14 @@ public class BillCalculatorTest {
         assertEquals(3.0,total,0.0);
     }
 
+    @Test
+    public void getOrderPrice_UserWinFreeOrder_TotalEqualTo0() throws TakeAwayBillException {
+    	User minorUser = new User("Marco","Rossi",15);
+        list.add(new MenuItem(MenuItem.ItemType.Bevanda,"Acqua ragia",11.0));
+        LocalTime discountTime = LocalTime.of(18,18);
+        calculator.freeOrderRandomizer.setOutcome(Randomizer.settedOutcome.True);
+        total = calculator.getOrderPrice(list,minorUser,discountTime);
+        assertEquals(0.0,total,0.0);
+    }
+
 }

@@ -9,9 +9,11 @@ import java.time.LocalTime;
 import it.unipd.tos.business.exception.TakeAwayBillException;
 import it.unipd.tos.model.MenuItem;
 import it.unipd.tos.model.User;
+import it.unipd.tos.business.Randomizer;
 
 public class BillCalculator implements TakeAwayBill {
 
+    public Randomizer freeOrderRandomizer = new Randomizer();
     private double total;
     private double cheaperIceCreamPrice;
     private double totalDrinksPrice;
@@ -63,6 +65,10 @@ public class BillCalculator implements TakeAwayBill {
             total += 0.5;
         }
 
+        if (freeOrderRandomizer.checkOutcome(user,time)) {
+            total = 0.0;
+        }
+        
         return total;
 
     }
