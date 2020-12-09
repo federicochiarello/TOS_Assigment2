@@ -60,4 +60,27 @@ public class BillCalculatorTest {
         total = calculator.getOrderPrice(list,user,time);
         assertEquals(11.0,total,0.0);
     }
+
+    @Test
+    public void getOrderPrice_5IceCream_CalculatedWithoutDiscount() throws TakeAwayBillException {
+        list.add(new MenuItem(MenuItem.ItemType.Gelato,"Vaniglia",1.0));
+        list.add(new MenuItem(MenuItem.ItemType.Gelato,"Limone",2.0));
+        list.add(new MenuItem(MenuItem.ItemType.Gelato,"Cioccolato",2.0));
+        list.add(new MenuItem(MenuItem.ItemType.Gelato,"Pistacchio",2.0));
+        list.add(new MenuItem(MenuItem.ItemType.Gelato,"Fragola",4.0));
+        total = calculator.getOrderPrice(list,user,time);
+        assertEquals(11,total,0.0);
+    }
+    
+    @Test
+    public void getOrderPrice_6IceCream_CalculatedWith50Discount() throws TakeAwayBillException {
+        list.add(new MenuItem(MenuItem.ItemType.Gelato,"Vaniglia",2.0));
+        list.add(new MenuItem(MenuItem.ItemType.Gelato,"Limone",1.0));
+        list.add(new MenuItem(MenuItem.ItemType.Gelato,"Cioccolato",2.0));
+        list.add(new MenuItem(MenuItem.ItemType.Gelato,"Pistacchio",2.0));
+        list.add(new MenuItem(MenuItem.ItemType.Gelato,"Fragola",2.0));
+        list.add(new MenuItem(MenuItem.ItemType.Gelato,"Nocciola",2.0));
+        total = calculator.getOrderPrice(list,user,time);
+        assertEquals(10.5,total,0.0);
+    }
 }

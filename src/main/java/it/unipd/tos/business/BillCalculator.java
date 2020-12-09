@@ -13,10 +13,14 @@ import it.unipd.tos.model.User;
 public class BillCalculator implements TakeAwayBill {
 
     private double total;
+    private double cheaperIceCreamPrice;
+    private int numberOfIceCream;
     
     public double getOrderPrice(List<MenuItem> itemsOrdered, User user, LocalTime time) throws TakeAwayBillException {
 
         total = 0.0;
+        cheaperIceCreamPrice = 0.0;
+        numberOfIceCream = 0;
 
         if (itemsOrdered == null) {
             throw new TakeAwayBillException("La lista è vuota");
@@ -28,6 +32,17 @@ public class BillCalculator implements TakeAwayBill {
         
         for (MenuItem i: itemsOrdered) {
             total += i.getPrice();
+            
+            if (i.getItemType() == MenuItem.ItemType.Gelato) {    
+                numberOfIceCream++;
+                if ((cheaperIceCreamPrice == 0.0) || (cheaperIceCreamPrice > i.getPrice())) {
+                     cheaperIceCreamPrice = i.getPrice();
+                }
+            }
+        }
+        
+        if (numberOfIceCream > 5) {
+            total -= cheaperIceCreamPrice * 0.5;
         }
         
         return total;
