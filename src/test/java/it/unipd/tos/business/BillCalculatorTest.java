@@ -131,4 +131,11 @@ public class BillCalculatorTest {
         assertEquals(54.0,total,0.0);
     }
 
+    @Test
+    public void getOrderPrice_LessThan10Euro_CommissionApplied() throws TakeAwayBillException {
+        list.add(new MenuItem(MenuItem.ItemType.Bevanda,"Acqua del rubinetto",2.5));
+        total = calculator.getOrderPrice(list,user,time);
+        assertEquals(3.0,total,0.0);
+    }
+
 }
